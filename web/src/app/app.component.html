@@ -1,0 +1,27 @@
+<div class="container-fluid appstyle">
+  <div class="row">
+    <!-- sidebar -->
+    <div class="col-md-3 sidebar">
+      <div class="list-group">
+        <a routerLink="/home" class="list-group-item list-group-item-action">
+          <i class="fas fa-home fa-4x"></i>
+          <h6>Home</h6>
+        </a>
+        <a routerLink="/create-job" class="list-group-item list-group-item-action">
+          <i class="fa-solid fa-file-circle-plus fa-4x"></i>
+          <h6>Create A Job</h6>
+        </a>
+        <a routerLink="/view-jobs" class="list-group-item list-group-item-action">
+          <i class="fa-solid fa-list fa-4x"></i>
+          <h6>View Jobs</h6>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- content -->
+    <div class="col-md-9">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
