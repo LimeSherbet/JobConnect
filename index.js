@@ -10,9 +10,9 @@ var publicFolder = path.join(__dirname, './web/dist/web/browser/')
 app.use(express.static(publicFolder))
 app.use(express.json());
 
-app.listen(4201, function(err){
+app.listen(3000, function(err){
     if (err) console.log("Error in server setup")
-    console.log("Server listening on Port", 4200);
+    console.log("Server listening on Port", 3000);
     
 })
 
@@ -22,10 +22,10 @@ var con = mysql.createConnection({
     database: "mydb"
 });
 
-app.get('/view-jobs', (req, res) => {
+app.get('/get-jobs', (req, res) => {
     con.connect(function(err) {
         if (err) console.log( err);
-        con.query("SELECT * FROM Jobs INNER JOIN JobSkills on Jobs.idJobs = JobSkills.Jobs_idJobs INNER JOIN JobQualifications on Jobs.idJobs = JobQualifications.Jobs_idJobs", function (err, result) {
+        con.query("SELECT Jobs.idJobs, Jobs.Company_CompanyName, Jobs.jobDescription, Jobs.payRangeLower, Jobs.jobTitle, Jobs.minimumExperience, Jobs.payRangeUpper, JSON_ARRAYAGG(DISTINCT JobSkills.Skill) AS skills, JSON_ARRAYAGG(DISTINCT JobQualifications.idJobQualifications) AS qualifications FROM Jobs INNER JOIN JobSkills ON Jobs.idJobs = JobSkills.Jobs_idJobs INNER JOIN JobQualifications ON Jobs.idJobs = JobQualifications.Jobs_idJobs GROUP BY Jobs.idJobs;", function (err, result) {
           if (err) {
             console.log("Error: " + err);
             return res.status(500).json("Error: " + err);
