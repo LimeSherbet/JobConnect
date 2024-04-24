@@ -1,5 +1,6 @@
 express = require('express');
 mysql = require('mysql');
+util = require('util');
 app = express(); 
 
 var connectionConfig = {
@@ -49,6 +50,9 @@ app.get('/get-job', (req, res) => {
     });
 });
 
+
+
+
 app.get('/create-job', (req, res) => {
 
   pool.getConnection(function(err, connection) {
@@ -60,7 +64,8 @@ app.get('/create-job', (req, res) => {
       var idJobsFromInput = 0;
       var sqlSelectCompanyQuery = `SELECT CompanyName FROM Company WHERE CompanyName = '${req.body.Company_CompanyName}';`
 
-      var sqlInsertCompanyQuery = `INSERT INTO Company (CompanyName) VALUES ('${req.body.Company_CompanyName}');`
+      var sqlInsertCompanyQuery = `INSERT INTO Company VALUES ('${req.body.Company_CompanyName}');`
+
       connection.query(sqlSelectCompanyQuery, function (err, result) {
         if (err) {
           console.log("Error: " + err);
@@ -74,19 +79,27 @@ app.get('/create-job', (req, res) => {
               connection.release();
               return res.status(500).json("Error: " + err);
             }
+            insertJob(connection, req, res);
           });
         }
-      });
-      var sqlInsertJobQuery = `INSERT INTO Jobs (Company_CompanyName, jobDescription, payRangeLower, jobTitle, minimumExperience, payRangeUpper) VALUES ('${req.body.Company_CompanyName}', '${req.body.jobDescription}', ${req.body.payRangeLower}, '${req.body.jobTitle}', '${req.body.minimumExperience}', ${req.body.payRangeUpper});`
-
-      connection.query(sqlInsertJobQuery, function (err, result) {
-        if (err) {
-          console.log("Error: " + err);
-          connection.release();
-          return res.status(500).json("Error: " + err);
+        else{
+          insertJob(connection, req, res);
         }
+      });
+    });
 
-        idJobsFromInput = result.insertId;
+
+function insertJob(connection, req, res){
+  var sqlInsertJobQuery = `INSERT INTO Jobs (Company_CompanyName, jobDescription, payRangeLower, jobTitle, minimumExperience, payRangeUpper) VALUES ('${req.body.Company_CompanyName}', '${req.body.jobDescription}', ${req.body.payRangeLower}, '${req.body.jobTitle}', '${req.body.minimumExperience}', ${req.body.payRangeUpper});`
+
+  connection.query(sqlInsertJobQuery, function (err, result) {
+    if (err) {
+      console.log("Error: " + err);
+      connection.release();
+      return res.status(500).json("Error: " + err);
+    }
+
+    idJobsFromInput = result.insertId;
         var skills = JSON.parse(req.body.skills);
         var qualifications = JSON.parse(req.body.qualifications);
         skills.forEach(skill => {
@@ -113,8 +126,4 @@ app.get('/create-job', (req, res) => {
         res.status(200).json({idJobs: idJobsFromInput});
         connection.release();
       });
-    });
-});
-
-
-
+    }});
