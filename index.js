@@ -55,7 +55,7 @@ app.get('/get-job', (req, res) => {
 
 
 
-app.get('/create-job', (req, res) => {
+app.post('/create-job', (req, res) => {
 
   pool.getConnection(function(err, connection) {
       if (err){
