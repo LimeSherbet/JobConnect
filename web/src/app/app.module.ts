@@ -9,6 +9,8 @@ import { ViewJobsComponent } from './view-jobs/view-jobs.component';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { FullCalendarModule } from '@fullcalendar/angular';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +23,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,      
     HttpClientJsonpModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FullCalendarModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

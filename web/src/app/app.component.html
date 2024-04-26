@@ -1,7 +1,6 @@
-<div class="container-fluid appstyle">
+<div class="container-fluid p-4 appstyle">
   <div class="row">
-    <!-- sidebar -->
-    <div class="col-md-3 sidebar">
+    <div class="col-md-1 sidebar">
       <div class="list-group">
         <a routerLink="/home" class="list-group-item list-group-item-action">
           <i class="fas fa-home fa-4x"></i>
@@ -15,13 +14,43 @@
           <i class="fa-solid fa-list fa-4x"></i>
           <h6>View Jobs</h6>
         </a>
-
       </div>
     </div>
+    <div class="col-md-11">
+      <h1 class="text-center fw-bold my-4">JobConnect</h1>
 
-    <!-- content -->
-    <div class="col-md-9">
-      <router-outlet></router-outlet>
+      <div class="d-flex justify-content-center">
+        <form class="w-50">
+          <form class="form-inline d-flex justify-content-center">
+            <input type="search" class="form-control flex-grow-1 mr-2"
+              placeholder="Search applicants by name, skills, or status" aria-label="Search">
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+        </form>
+      </div>
+
+      <div class="row p-5">
+  
+        <div class="custom-grey-bg col-md-8 px-3">
+          <router-outlet></router-outlet>
+        </div>
+
+        <div class="col-md-4 px-3">
+          <div class="container">
+            <div class="row align-items-center pb-3">
+                <div class="col-auto">
+                    <i class="fas fa-user-circle fa-2x"></i> 
+                </div>
+                <div class="col-auto">
+                    <p class="mb-0">JobConnect User</p> 
+                </div>
+            </div>
+        </div>
+          <full-calendar [options]="calendarOptions"></full-calendar>
+          <button type="button" class="btn btn-primary mt-3 d-block w-100">Add Event</button>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
