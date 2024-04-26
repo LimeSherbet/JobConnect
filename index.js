@@ -10,6 +10,8 @@ var connectionConfig = {
   password        : 'password',
   database        : 'mydb'
 }
+const cors = require('cors');
+app.use(cors());
 
 var pool  = mysql.createPool(connectionConfig);
 app.use(express.json());

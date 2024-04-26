@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { CreateJobComponent } from './create-job/create-job.component';
 import { ViewJobsComponent } from './view-jobs/view-jobs.component';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,10 @@ import { ViewJobsComponent } from './view-jobs/view-jobs.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,      
+    HttpClientJsonpModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

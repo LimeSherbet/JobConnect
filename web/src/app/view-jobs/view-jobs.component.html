@@ -1,1 +1,23 @@
-<p>view-jobs works!</p>
+
+<div class="container mt-4">
+    <div *ngFor="let job of jobs" class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ job.jobTitle }} at {{ job.Company_CompanyName }}</h5>
+        <p class="card-text">{{ job.jobDescription }}</p>
+        <p class="card-text"><strong>Salary Range:</strong> {{ job.payRangeLower | currency:'USD':'symbol':'1.0-0' }} - {{ job.payRangeUpper | currency:'USD':'symbol':'1.0-0' }}</p>
+        <p class="card-text"><strong>Minimum Experience:</strong> {{ job.minimumExperience }}</p>
+        <div class="mb-2">
+          <strong>Skills Required:</strong>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let skill of job.skills">• {{ skill }}</li>
+          </ul>
+        </div>
+        <div>
+          <strong>Qualifications:</strong>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let qualification of job.qualifications">• {{ qualification }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>

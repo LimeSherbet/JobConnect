@@ -1,1 +1,56 @@
-<p>create-job works!</p>
+<div class="container mt-4">
+    <h2>Add Job</h2>
+    <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+  
+      <div class="mb-3">
+        <label for="companyName" class="form-label">Company Name:</label>
+        <input type="text" id="companyName" class="form-control" formControlName="Company_CompanyName" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="jobTitle" class="form-label">Job Title:</label>
+        <input type="text" id="jobTitle" class="form-control" formControlName="jobTitle" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="jobDescription" class="form-label">Job Description:</label>
+        <textarea id="jobDescription" class="form-control" formControlName="jobDescription" rows="3" required></textarea>
+      </div>
+  
+      <div class="mb-3">
+        <label for="payRangeLower" class="form-label">Pay Range Lower:</label>
+        <input type="number" id="payRangeLower" class="form-control" formControlName="payRangeLower" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="payRangeUpper" class="form-label">Pay Range Upper:</label>
+        <input type="number" id="payRangeUpper" class="form-control" formControlName="payRangeUpper" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="minimumExperience" class="form-label">Minimum Experience:</label>
+        <input type="text" id="minimumExperience" class="form-control" formControlName="minimumExperience" required>
+      </div>
+  
+      <div formArrayName="skills" class="mb-3">
+        <label for="skills" class="form-label">Skills:</label>
+        <div *ngFor="let skill of skills.controls; let i = index" class="input-group mb-2">
+          <input type="text" [formControlName]="i" class="form-control">
+          <button class="btn btn-outline-danger" type="button" (click)="removeSkill(i)">Remove</button>
+        </div>
+        <button type="button" class="btn btn-outline-secondary" (click)="addSkill()">Add Skill</button>
+      </div>
+  
+      <div formArrayName="qualifications" class="mb-3">
+        <label for="qualifications" class="form-label">Qualifications:</label>
+        <div *ngFor="let qualification of qualifications.controls; let i = index" class="input-group mb-2">
+          <input type="text" [formControlName]="i" class="form-control">
+          <button class="btn btn-outline-danger" type="button" (click)="removeQualification(i)">Remove</button>
+        </div>
+        <button type="button" class="btn btn-outline-secondary" (click)="addQualification()">Add Qualification</button>
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Submit Job</button>
+    </form>
+  </div>
+  
