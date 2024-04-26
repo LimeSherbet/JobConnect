@@ -54,5 +54,27 @@ export class CreateJobComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.jobForm.valid) {
+      const formValue = {
+        ...this.jobForm.value,
+        skills: JSON.stringify(this.jobForm.value.skills),
+        qualifications: JSON.stringify(this.jobForm.value.qualifications)
+      };
+
+      this.http.post('http://localhost:3000/create-job', formValue).subscribe({
+        next: (response) => {
+          console.log('Job added:', response);
+          this.jobForm.reset();
+          this.addSkill();
+          this.addQualification();
+        },
+        error: (error) => {
+          console.error('Cannot add job:', error);
+        }
+      });
+    } else {
+      console.error('Form is invalid.'); //usually if empty skills or qualifications box is left on the form
+    }
   }
+
 }
