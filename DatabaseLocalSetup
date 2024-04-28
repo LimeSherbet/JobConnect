@@ -1,0 +1,27 @@
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+flush privileges;
+
+USE mydb;
+INSERT INTO Company VALUES ("DevScop");
+
+INSERT INTO Jobs (Company_CompanyName,
+jobTitle,
+jobDescription,
+payRangeLower,
+payRangeUpper,
+minimumExperience
+) VALUES ("DevScop",
+"Software Engineer",
+"You will be a software engineer doing software engineering things and pretending to code",
+30000,
+45000,
+"Please only associate with us if you have at least 45 years of experience"
+);
+
+INSERT INTO JobQualifications VALUES ("Software Engineering Degree",1);
+INSERT INTO JobQualifications VALUES ("Engineering Degree",1);
+INSERT INTO JobQualifications VALUES ("Maths Degree",1);
+
+INSERT INTO JobSkills VALUES ("SQL",1);
+INSERT INTO JobSkills VALUES ("NODE JS",1);
+INSERT INTO JobSkills VALUES ("JavaScript",1);
