@@ -1,6 +1,7 @@
 express = require('express');
 mysql = require('mysql');
 util = require('util');
+cors = require('cors');
 app = express(); 
 
 var connectionConfig = {
@@ -10,10 +11,11 @@ var connectionConfig = {
   password        : 'password',
   database        : 'mydb'
 }
-const cors = require('cors');
-app.use(cors());
+
+
 
 var pool  = mysql.createPool(connectionConfig);
+app.use(cors());
 app.use(express.json());
 
 app.listen(3000, function(err){
