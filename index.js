@@ -22,7 +22,8 @@ var connectionConfig = {
 
 //Here we create a connection pool to help with the connection to the database
 var pool  = mysql.createPool(connectionConfig);
-//Then we allow the application to use cors for cross origin requests to the server as our angular app and the node.js server are on different ports
+//Then we allow the application to use cors for cross origin requests to the 
+//server as our angular app and the node.js server are on different ports
 app.use(cors());
 //We also allow the application to use json as the data format
 app.use(express.json());
@@ -43,7 +44,13 @@ app.get('/get-jobs', (req, res) => {
       //If there is an error we log the error
         if (err) console.log( err);
         //We then query the database to get all the jobs
-        connection.query("SELECT Jobs.idJobs, Jobs.Company_CompanyName, Jobs.jobDescription, Jobs.payRangeLower, Jobs.jobTitle, Jobs.minimumExperience, Jobs.payRangeUpper, (SELECT JSON_ARRAYAGG(JobSkills.Skill) from JobSkills where JobSkills.Jobs_idJobs = Jobs.idJobs) AS skills, (SELECT JSON_ARRAYAGG(JobQualifications.idJobQualifications) from jobqualifications where jobqualifications.Jobs_idJobs = Jobs.idJobs) AS qualifications FROM Jobs GROUP BY Jobs.idJobs;", function (err, result) {
+        connection.query("SELECT Jobs.idJobs, Jobs.Company_CompanyName, Jobs.jobDescription,"+
+        " Jobs.payRangeLower, Jobs.jobTitle, Jobs.minimumExperience," + 
+        "Jobs.payRangeUpper, (SELECT JSON_ARRAYAGG(JobSkills.Skill) from JobSkills "+
+        " where JobSkills.Jobs_idJobs = Jobs.idJobs) AS skills, "+
+        "(SELECT JSON_ARRAYAGG(JobQualifications.idJobQualifications)" +
+        "from jobqualifications where jobqualifications.Jobs_idJobs = Jobs.idJobs) AS qualifications "+
+        " FROM Jobs GROUP BY Jobs.idJobs;", function (err, result) {
           if (err) {
             //If there is an error we log the error and send a 500 status code with the error message
             console.log("Error: " + err);
@@ -64,7 +71,12 @@ app.get('/get-job', (req, res) => {
     //If there is an error we log the error
       if (err) console.log( err);
       //We then query the database to get the job with the id that was sent in the request
-      connection.query(`SELECT Jobs.idJobs, Jobs.Company_CompanyName, Jobs.jobDescription, Jobs.payRangeLower, Jobs.jobTitle, Jobs.minimumExperience, Jobs.payRangeUpper, (SELECT JSON_ARRAYAGG(JobSkills.Skill) from JobSkills where JobSkills.Jobs_idJobs = Jobs.idJobs) AS skills, (SELECT JSON_ARRAYAGG(JobQualifications.idJobQualifications) from jobqualifications where jobqualifications.Jobs_idJobs = Jobs.idJobs) AS qualifications FROM Jobs WHERE Jobs.idJobs = ${req.body.idJobs} GROUP BY Jobs.idJobs;`, function (err, result) {
+      connection.query("SELECT Jobs.idJobs, Jobs.Company_CompanyName, Jobs.jobDescription, Jobs.payRangeLower, "+
+      " Jobs.jobTitle, Jobs.minimumExperience, Jobs.payRangeUpper," + 
+      "(SELECT JSON_ARRAYAGG(JobSkills.Skill) from JobSkills where JobSkills.Jobs_idJobs = Jobs.idJobs) AS skills,"+
+      " (SELECT JSON_ARRAYAGG(JobQualifications.idJobQualifications) " + 
+      "from jobqualifications where jobqualifications.Jobs_idJobs = Jobs.idJobs) AS qualifications FROM Jobs WHERE "+
+      ` Jobs.idJobs = ${req.body.idJobs} GROUP BY Jobs.idJobs;`, function (err, result) {
         if (err) {
           //If there is an error we log the error and send a 500 status code with the error message
           console.log("Error: " + err);
@@ -128,7 +140,10 @@ app.post('/create-job', (req, res) => {
 //As well as the request and response objects of the calling method.
 function insertJob(connection, req, res){
   //Initially we define the query for inserting the job into the database
-  var sqlInsertJobQuery = `INSERT INTO Jobs (Company_CompanyName, jobDescription, payRangeLower, jobTitle, minimumExperience, payRangeUpper) VALUES ('${req.body.Company_CompanyName}', '${req.body.jobDescription}', ${req.body.payRangeLower}, '${req.body.jobTitle}', '${req.body.minimumExperience}', ${req.body.payRangeUpper});`
+  var sqlInsertJobQuery = "INSERT INTO Jobs (Company_CompanyName, jobDescription, payRangeLower, "+
+  "jobTitle, minimumExperience, payRangeUpper) VALUES " +
+  `('${req.body.Company_CompanyName}', '${req.body.jobDescription}', ${req.body.payRangeLower}, `+
+  `'${req.body.jobTitle}', '${req.body.minimumExperience}', ${req.body.payRangeUpper});`
 
   //we then execute the query to instert the job into the database
   connection.query(sqlInsertJobQuery, function (err, result) {
@@ -156,7 +171,8 @@ function insertJob(connection, req, res){
           });
         });
         qualifications.forEach(qualification => {
-          var sqlInsertJobQualificationsQuery = `INSERT INTO JobQualifications (Jobs_idJobs, idJobQualifications) VALUES (${idJobsFromInput}, '${qualification}');`
+          var sqlInsertJobQualificationsQuery = `INSERT INTO JobQualifications (Jobs_idJobs, idJobQualifications) "+
+          "VALUES (${idJobsFromInput}, '${qualification}');`
 
          connection.query(sqlInsertJobQualificationsQuery, function (err, result) {
             if (err) {
